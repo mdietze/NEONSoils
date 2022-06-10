@@ -56,7 +56,7 @@ fit_function <- function(input_data,indep_name,dep_name,interp_values) {
 
   } else {
 
-    measurement_interp <- tibble(x=interp_values,y=NA) %>%
+    measurement_interp <- tibble(x=interp_values,y=mean(dependent_data)) %>% ## previously y = NA
       rename("{{indep_name}}" := x,
              "{{dep_name}}" := y )
   }

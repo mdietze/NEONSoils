@@ -63,8 +63,8 @@ depth_interpolate <- function(input_measurements) {
   }
 
   # Next filter our measurements so that we take these only to save processing time
-  input_revised <- input_measurements %>%
-    filter(between(zOffset,to_depth,from_depth))
+  input_revised <- input_measurements #%>%
+#    filter(between(zOffset,to_depth,from_depth))  ## MCD skipping this because of limited soil moisture data within the CO2 depth range
 
   # Create sequence of depths in 1 cm intervals up to the depth of the deepest sensor producing good data
   depths <- seq(from=from_depth, to=to_depth, by=-0.01)
@@ -77,6 +77,7 @@ depth_interpolate <- function(input_measurements) {
     have_interpolate <- input_data %>%
       group_by(measurement) %>%
       summarize(tot=n()) %>%
+      filter(measurement == "co2") %>%  ## MCD added to only check CO2
       pull(tot) %>%
       all(.>2)
 
